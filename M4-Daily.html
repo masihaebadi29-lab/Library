@@ -1,0 +1,1636 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>M4-Daily | Liquid Glass · پخش‌کننده موسیقی + خبرخوان پویا</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <link id="dynamicFontLink" rel="stylesheet" href="">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-family, 'Inter'), sans-serif;
+        }
+
+        :root {
+            --bg-gradient: radial-gradient(circle at 30% 20%, #0a1628, #030a18);
+            --glass-bg: rgba(20, 35, 60, 0.28);
+            --glass-border: rgba(255, 255, 255, 0.35);
+            --glass-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+            --text-primary: rgba(255, 255, 255, 0.96);
+            --text-secondary: rgba(180, 210, 250, 0.85);
+            --accent: #5aa9ff;
+            --accent-glow: 0 0 12px rgba(90, 169, 255, 0.4);
+            --card-radius: 32px;
+            --transition-smooth: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --font-family: 'Inter', sans-serif;
+            --accent-hue: 0;
+        }
+
+        /* Original themes */
+        body.theme-retro {
+            --bg-gradient: linear-gradient(145deg, #f7ede2, #e8d8c8);
+            --glass-bg: rgba(250, 245, 235, 0.4);
+            --glass-border: rgba(140, 100, 70, 0.4);
+            --text-primary: #3a2a1f;
+            --text-secondary: #5e3e2a;
+            --accent: #c27e3a;
+        }
+        body.theme-dark {
+            --bg-gradient: radial-gradient(circle at 20% 30%, #0a0e1a, #03050c);
+            --glass-bg: rgba(12, 18, 30, 0.35);
+            --accent: #4f8eff;
+        }
+        body.theme-light {
+            --bg-gradient: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(0, 0, 0, 0.12);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --accent: #3b82f6;
+        }
+        body.theme-bw {
+            --bg-gradient: #000000;
+            --glass-bg: rgba(15, 15, 15, 0.6);
+            --glass-border: #aaa;
+            --text-primary: #ffffff;
+            --accent: #ffffff;
+        }
+
+        /* 15 additional themes */
+        body.theme-ocean {
+            --bg-gradient: linear-gradient(135deg, #0a2e4a, #051a30);
+            --glass-bg: rgba(10, 60, 100, 0.3);
+            --glass-border: rgba(100, 200, 255, 0.5);
+            --text-primary: #e0f0ff;
+            --text-secondary: #8ecae6;
+            --accent: #219ebc;
+        }
+        body.theme-sunset {
+            --bg-gradient: linear-gradient(145deg, #6b2c3e, #c44b4b);
+            --glass-bg: rgba(180, 70, 70, 0.3);
+            --glass-border: rgba(255, 200, 150, 0.5);
+            --text-primary: #fff5e6;
+            --text-secondary: #ffcdb2;
+            --accent: #e5989b;
+        }
+        body.theme-forest {
+            --bg-gradient: radial-gradient(circle at 20% 20%, #1b4332, #081c15);
+            --glass-bg: rgba(45, 106, 79, 0.25);
+            --glass-border: rgba(130, 200, 130, 0.5);
+            --text-primary: #d8f3dc;
+            --text-secondary: #b7e4c7;
+            --accent: #52b788;
+        }
+        body.theme-lavender {
+            --bg-gradient: linear-gradient(135deg, #3c1642, #1c0a1e);
+            --glass-bg: rgba(100, 50, 120, 0.3);
+            --glass-border: rgba(210, 170, 255, 0.4);
+            --text-primary: #f3e8ff;
+            --text-secondary: #d4b8f0;
+            --accent: #b185db;
+        }
+        body.theme-mint {
+            --bg-gradient: linear-gradient(145deg, #c8e6c9, #a5d6a7);
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(0, 80, 0, 0.3);
+            --text-primary: #1b5e20;
+            --text-secondary: #2e7d32;
+            --accent: #43a047;
+        }
+        body.theme-cherry {
+            --bg-gradient: radial-gradient(circle at 30% 30%, #800020, #400010);
+            --glass-bg: rgba(180, 30, 50, 0.35);
+            --glass-border: rgba(255, 150, 150, 0.5);
+            --text-primary: #ffe0e0;
+            --text-secondary: #f4acb7;
+            --accent: #ff5e7e;
+        }
+        body.theme-sky {
+            --bg-gradient: linear-gradient(180deg, #87ceeb, #f0f8ff);
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(0, 100, 150, 0.4);
+            --text-primary: #023e8a;
+            --text-secondary: #0077b6;
+            --accent: #00b4d8;
+        }
+        body.theme-aurora {
+            --bg-gradient: linear-gradient(125deg, #0b2b26, #1a5b5b, #2d8f8f);
+            --glass-bg: rgba(20, 80, 80, 0.35);
+            --glass-border: rgba(100, 255, 200, 0.5);
+            --text-primary: #e0ffff;
+            --text-secondary: #b2f0f0;
+            --accent: #20b2aa;
+        }
+        body.theme-coral {
+            --bg-gradient: radial-gradient(circle at 40% 40%, #ff7e67, #c33c54);
+            --glass-bg: rgba(255, 100, 100, 0.3);
+            --glass-border: rgba(255, 200, 180, 0.6);
+            --text-primary: #fff5ee;
+            --text-secondary: #ffd7c4;
+            --accent: #ff6b6b;
+        }
+        body.theme-midnight {
+            --bg-gradient: radial-gradient(circle at 10% 10%, #0a0a2e, #01010a);
+            --glass-bg: rgba(20, 20, 60, 0.4);
+            --glass-border: rgba(150, 150, 255, 0.4);
+            --text-primary: #e6e6ff;
+            --text-secondary: #9999ff;
+            --accent: #6464ff;
+        }
+        body.theme-autumn {
+            --bg-gradient: linear-gradient(145deg, #5c3a21, #3b2314);
+            --glass-bg: rgba(120, 80, 40, 0.3);
+            --glass-border: rgba(255, 180, 100, 0.5);
+            --text-primary: #fdebd0;
+            --text-secondary: #f5cba7;
+            --accent: #e67e22;
+        }
+        body.theme-ice {
+            --bg-gradient: radial-gradient(circle at 20% 30%, #e0f7fa, #b2ebf2);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(0, 150, 200, 0.3);
+            --text-primary: #01579b;
+            --text-secondary: #0277bd;
+            --accent: #00acc1;
+        }
+        body.theme-berry {
+            --bg-gradient: linear-gradient(135deg, #4a0e4e, #1f0a22);
+            --glass-bg: rgba(100, 20, 120, 0.3);
+            --glass-border: rgba(220, 150, 255, 0.4);
+            --text-primary: #f0e6f6;
+            --text-secondary: #d4b8f0;
+            --accent: #b47ed0;
+        }
+        body.theme-citrus {
+            --bg-gradient: radial-gradient(circle at 30% 30%, #ffb347, #ff8c00);
+            --glass-bg: rgba(255, 180, 50, 0.3);
+            --glass-border: rgba(255, 230, 150, 0.6);
+            --text-primary: #4e2a00;
+            --text-secondary: #7a4400;
+            --accent: #e65100;
+        }
+        body.theme-noir {
+            --bg-gradient: #111;
+            --glass-bg: rgba(25, 25, 25, 0.7);
+            --glass-border: #444;
+            --text-primary: #ddd;
+            --text-secondary: #999;
+            --accent: #f1c40f;
+        }
+
+        /* Spider-Man, Miles Morales, New York, Transparent, E-girl, Pink, Bookworm, Ironman */
+        body.theme-spiderman {
+            --bg-gradient: radial-gradient(circle at 30% 20%, #1f1f3a, #0b0b1a);
+            --glass-bg: rgba(25, 25, 60, 0.4);
+            --glass-border: rgba(255, 50, 50, 0.6);
+            --text-primary: #ffe0e0;
+            --text-secondary: #ffb3b3;
+            --accent: #e63946;
+        }
+        body.theme-miles-morales {
+            --bg-gradient: radial-gradient(circle at 30% 30%, #0a0a1a, #010112);
+            --glass-bg: rgba(20, 0, 40, 0.5);
+            --glass-border: rgba(255, 0, 150, 0.6);
+            --text-primary: #f0e6ff;
+            --text-secondary: #ccaaff;
+            --accent: #a020f0;
+        }
+        body.theme-newyork {
+            --bg-gradient: linear-gradient(135deg, #2c3e50, #1a252f);
+            --glass-bg: rgba(44, 62, 80, 0.4);
+            --glass-border: rgba(255, 215, 0, 0.5);
+            --text-primary: #fdebd0;
+            --text-secondary: #f1c40f;
+            --accent: #e67e22;
+        }
+        body.theme-transparent {
+            --bg-gradient: transparent;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --accent: #ffffff;
+            background: none !important;
+        }
+        body.theme-e-girl {
+            --bg-gradient: linear-gradient(135deg, #1a0b1c, #0a0a0a);
+            --glass-bg: rgba(40, 20, 40, 0.5);
+            --glass-border: rgba(255, 105, 180, 0.7);
+            --text-primary: #ffe6f0;
+            --text-secondary: #ffb3d9;
+            --accent: #ff66b2;
+        }
+        body.theme-pink {
+            --bg-gradient: linear-gradient(145deg, #ffc0cb, #ffb6c1);
+            --glass-bg: rgba(255, 255, 255, 0.6);
+            --glass-border: rgba(255, 105, 180, 0.5);
+            --text-primary: #4a0030;
+            --text-secondary: #6b0045;
+            --accent: #ff1493;
+        }
+        body.theme-bookworm {
+            --bg-gradient: linear-gradient(145deg, #f5deb3, #d2b48c);
+            --glass-bg: rgba(255, 255, 255, 0.5);
+            --glass-border: rgba(139, 69, 19, 0.5);
+            --text-primary: #4e342e;
+            --text-secondary: #5d4037;
+            --accent: #8b4513;
+        }
+        body.theme-ironman {
+            --bg-gradient: radial-gradient(circle at 30% 30%, #4a1010, #1a0505);
+            --glass-bg: rgba(120, 30, 30, 0.4);
+            --glass-border: rgba(255, 215, 0, 0.7);
+            --text-primary: #ffe0a0;
+            --text-secondary: #ffb700;
+            --accent: #ff4500;
+        }
+
+        /* 🌈 New RGB Rainbow theme */
+        body.theme-rgb {
+            --bg-gradient: linear-gradient(145deg, hsl(var(--accent-hue), 30%, 10%), hsl(var(--accent-hue), 50%, 5%));
+            --glass-bg: hsla(var(--accent-hue), 40%, 20%, 0.28);
+            --glass-border: hsla(var(--accent-hue), 100%, 70%, 0.6);
+            --text-primary: hsl(var(--accent-hue), 20%, 90%);
+            --text-secondary: hsl(var(--accent-hue), 40%, 75%);
+            --accent: hsl(var(--accent-hue), 100%, 50%);
+            --accent-glow: 0 0 12px hsla(var(--accent-hue), 100%, 50%, 0.4);
+        }
+
+        /* All original styles follow, completely unchanged */
+        body {
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            padding: 1.6rem;
+            padding-bottom: 120px;
+            transition: background 0.3s;
+        }
+        body.custom-bg {
+            background: var(--custom-bg-image) no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle at 40% 50%, rgb(255, 255, 255), transparent 40%);
+            pointer-events: none;
+            z-index: -1;
+            animation: liquidFlow 20s infinite alternate ease-in-out;
+        }
+        @keyframes liquidFlow {
+            0% { transform: translate(0%, 0%) scale(1); opacity: 0.2; }
+            100% { transform: translate(2%, 1%) scale(1.05); opacity: 0.3; }
+        }
+
+        #searchBlurOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease, backdrop-filter 0.4s ease;
+        }
+        #searchBlurOverlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        #floatingSearchContainer {
+            position: fixed;
+            z-index: 2000;
+            width: 600px;
+            max-width: 90vw;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%) scale(0.95);
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+        }
+        #floatingSearchContainer.active {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        #floatingSearchContainer .search-box-clone {
+            display: flex;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border-radius: 60px;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.4) inset;
+            min-height: 70px;
+            align-items: center;
+            position: relative;
+        }
+        #floatingSearchContainer .search-box-clone input {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            color: var(--text-primary);
+            min-height: 70px;
+            font-size: x-large;
+            flex: 1;
+        }
+        #floatingSearchContainer .search-box-clone .search-btn {
+            background: var(--accent);
+            border-radius: 60px;
+            padding: 0 26px;
+            transition: 0.2s;
+            color: #000000;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            align-self: stretch;
+            white-space: nowrap;
+        }
+        #floatingSearchContainer .suggestions-clone {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 0 0 24px 24px;
+            box-shadow: var(--glass-shadow);
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 240px;
+            overflow-y: auto;
+            display: none;
+        }
+        #floatingSearchContainer .suggestions-clone li {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: background 0.15s;
+            font-size: 1rem;
+            text-align: right;
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: fadeInUp 0.3s ease forwards;
+        }
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #floatingSearchContainer .suggestions-clone li:hover {
+            background: var(--accent);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0.8rem 1.5rem;
+            pointer-events: none;
+        }
+        .bottom-nav-inner {
+            pointer-events: auto;
+            backdrop-filter: blur(12px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            border-radius: 60px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem 1.5rem;
+            transition: var(--transition-smooth);
+            animation: floatGlass 6s infinite ease-in-out;
+        }
+        .bottom-nav-inner select,
+        .bottom-nav-inner button {
+            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.12);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 8px 16px;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .bottom-nav-inner button {
+            background: var(--accent);
+            color: #000;
+            border: none;
+        }
+        .bottom-nav-inner button:hover {
+            background: var(--accent-hover);
+            box-shadow: var(--accent-glow);
+            transform: scale(0.96);
+        }
+
+        .dashboard {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .glass-header, .bookmark-strip, .widget {
+            backdrop-filter: blur(1px);
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+            transition: var(--transition-smooth);
+            color: #ffffff;
+        }
+
+        .glass-header {
+            border-radius: 100px;
+            padding: 0.5rem 1.8rem;
+            margin-bottom: 2rem;
+            animation: floatGlass 6s infinite ease-in-out;
+        }
+        @keyframes floatGlass {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-2px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .header-content {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 1rem;
+        }
+        .header-logo { text-align: right; }
+        .header-search { display: flex; justify-content: center; }
+        .header-actions { display: flex; justify-content: flex-start; }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(125deg, #ffffff, var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+            white-space: nowrap;
+        }
+
+        .btn-glass {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 0.6rem 1.6rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            text-decoration: none;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            white-space: nowrap;
+        }
+        .btn-glass:hover {
+            background: var(--accent);
+            color: #000;
+            transform: scale(1.03);
+            box-shadow: var(--accent-glow), 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .btn-glass:active { transform: scale(0.96); }
+
+        .headphone-btn {
+            padding: 0.6rem 1.2rem;
+            animation: softPulse 2s infinite;
+        }
+        @keyframes softPulse {
+            0% { box-shadow: 0 0 0 0 rgba(90,169,255,0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(90,169,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(90,169,255,0); }
+        }
+
+        .search-box {
+            display: flex;
+            background: rgba(198, 198, 198, 0.12);
+            backdrop-filter: blur(10px);
+            border-radius: 60px;
+            border: 1px solid var(--glass-border);
+            min-height:70px;
+            min-width: 500px;
+            position: relative;
+            align-items: center;
+        }
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 10px 20px;
+            color: var(--text-primary);
+            min-height:70px;
+            font-size:x-large;
+            flex:1;
+        }
+        .search-btn {
+            background: var(--accent);
+            border-radius: 60px;
+            padding: 0 26px;
+            transition: var(--transition-smooth);
+            color: #000000;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            align-self: stretch;
+        }
+        .search-btn:hover {
+            background: var(--accent-hover);
+            box-shadow: var(--accent-glow);
+            transform: scale(1.05);
+        }
+
+        .suggestions {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 0 0 24px 24px;
+            box-shadow: var(--glass-shadow);
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            z-index: 101;
+            max-height: 240px;
+            overflow-y: auto;
+            display: none;
+        }
+        .suggestions li {
+            padding: 12px 20px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: background 0.15s;
+            font-size: 1rem;
+            text-align: right;
+        }
+        .suggestions li:hover { background: var(--accent); }
+
+        /* ---------- REDESIGNED BOOKMARK STRIP (bigger, logo on top) ---------- */
+        .bookmark-strip {
+            border-radius: 90px;
+            padding: 0.8rem 1.8rem;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 18px;
+        }
+        .bookmark-item-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+        .bookmark {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(6px);
+            border-radius: 20px;
+            padding: 12px 16px 8px;
+            text-decoration: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: 0.2s;
+            border: 1px solid transparent;
+            min-width: 80px;
+            text-align: center;
+        }
+        .bookmark:hover {
+            background: var(--accent);
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: var(--accent-glow);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .bookmark img {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            margin-bottom: 4px;
+        }
+        .bookmark-actions {
+            display: flex;
+            gap: 4px;
+            margin-top: 2px;
+        }
+        .bookmark-actions button {
+            background: rgba(255,255,255,0.15);
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 3px 6px;
+            border-radius: 50%;
+            transition: 0.2s;
+            font-size: 0.8rem;
+        }
+        .bookmark-actions button:hover {
+            background: rgba(255,255,255,0.35);
+            color: var(--text-primary);
+        }
+        .add-bm {
+            background: var(--accent);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 28px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #000;
+            transition: 0.2s;
+            font-size: 1rem;
+            white-space: nowrap;
+        }
+        .add-bm:hover {
+            background: var(--accent-hover);
+            box-shadow: var(--accent-glow);
+            transform: scale(0.97);
+        }
+
+        .widgets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.8rem;
+            color: #000000;
+        }
+        .widget {
+            border-radius: var(--card-radius);
+            cursor: grab;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s;
+        }
+        .widget:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 40px -18px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255,255,255,0.4) inset;
+        }
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1.6rem 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+        .widget-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .widget-content { padding: 1.2rem 1.6rem 1.6rem; }
+        .remove-widget {
+            background: rgba(0,0,0,0.3);
+            border: none;
+            border-radius: 40px;
+            width: 34px;
+            height: 34px;
+            transition: 0.2s;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .remove-widget:hover {
+            background: #e74c3c;
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        .liquid-clock {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            font-family: monospace;
+            background: linear-gradient(135deg, var(--accent), #ffffff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 6px rgb(255, 255, 255));
+        }
+
+        .music-glass { background: rgba(0,0,0,0.2); border-radius: 28px; padding: 16px; }
+        .control-buttons { display: flex; gap: 16px; justify-content: center; margin: 18px 0; color: #000000; }
+        .control-buttons button { width: 52px; height: 52px; border-radius: 60px; font-size: 1.3rem; transition: 0.2s; color: #000000; }
+        .control-buttons button:hover { transform: scale(1.06); background: var(--accent-hover); box-shadow: var(--accent-glow); color: #000000; }
+        .track-item { display: flex; justify-content: space-between; background: rgba(255,255,255,0.1); padding: 8px 16px; border-radius: 50px; margin: 8px 0; cursor: pointer; transition: 0.2s; }
+        .track-item:hover { background: var(--accent); transform: translateX(-5px); }
+        .news-item { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.1); cursor: pointer; transition: 0.2s; }
+        .news-item:hover { background: rgba(255,255,255,0.08); padding-right: 10px; }
+        .todo-item { background: rgba(255,255,255,0.1); margin: 8px 0; padding: 8px 18px; border-radius: 50px; display: flex; justify-content: space-between; }
+        button { background: var(--accent); border: none; border-radius: 50px; padding: 8px 24px; font-weight: 500; transition: 0.2s; cursor: pointer; color: rgb(0, 0, 0); }
+        button:hover { background: var(--accent-hover); transform: scale(0.97); box-shadow: var(--accent-glow); }
+        input, select, textarea { background: rgba(255,255,255,0.12); border: 1px solid var(--glass-border); border-radius: 50px; padding: 10px 18px; color: var(--text-primary); outline: none; }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(90,169,255,0.3); }
+        footer { margin-top: 2.5rem; text-align: center; font-size: 0.7rem; opacity: 0.2; color: var(--text-secondary); backdrop-filter: blur(8px); padding: 0.6rem; }
+        @media (max-width: 760px) {
+            body { padding: 1rem; padding-bottom: 130px; }
+            .glass-header { border-radius: 48px; }
+            .header-content { grid-template-columns: 1fr; justify-items: center; text-align: center; }
+            .header-logo, .header-actions { justify-content: center; }
+            .search-box { min-width: auto; width: 100%; }
+            .widgets-grid { grid-template-columns: 1fr; }
+            .bottom-nav-inner { flex-wrap: wrap; gap: 0.5rem; }
+        }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+    </style>
+</head>
+<body class="theme-bw">
+
+<div id="searchBlurOverlay"></div>
+<div id="floatingSearchContainer"></div>
+
+<div class="dashboard">
+    <div class="glass-header">
+        <div class="header-content">
+            <div class="header-logo">
+                <div class="logo">
+                    <h1><i class="fas fa-droplet"></i> M4-Daily</h1>
+                    <p>مسیحا عبادی | با ایده گیری از ویجیتیفای</p>
+                </div>
+            </div>
+            <div class="header-search">
+                <div class="search-box" id="originalSearchBox">
+                    <input type="text" id="originalSearchInput" placeholder="جستجو ..." autocomplete="off">
+                    <button class="search-btn" id="originalSearchBtn"><i class="fas fa-search"></i> جستجو</button>
+                    <ul class="suggestions" id="originalSuggestions"></ul>
+                </div>
+            </div>
+            <div class="header-actions">
+                <a href="M4th-Home-Screen.html" class="btn-glass headphone-btn">
+                    <i class="fas fa-headphones-alt"></i> <span>پخش‌کننده</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="bookmark-strip" id="bookmarkBar"></div>
+
+    <div id="widgetsGrid" class="widgets-grid"></div>
+    <footer>🎵 آپلود مستقیم آهنگ · شافل هوشمند · پلی‌لیست ذخیره در مرورگر · 📰 خوراک RSS دلخواه (قابل تغییر در ویجت)</footer>
+</div>
+
+<div class="bottom-nav">
+    <div class="bottom-nav-inner">
+        <select id="themeSelect">
+            <option value="bw" selected>⚫ تک رنگ</option>
+            <option value="liquid">💧 شیشه مایع</option>
+            <option value="retro">📻 رترو</option>
+            <option value="dark">🌙 دارک</option>
+            <option value="light">☀️ روشن</option>
+            <optgroup label="── پوسته‌های جدید ──">
+                <option value="ocean">🌊 اقیانوس</option>
+                <option value="sunset">🌅 غروب</option>
+                <option value="forest">🌲 جنگل</option>
+                <option value="lavender">🌸 اسطوخودوس</option>
+                <option value="mint">🌿 نعناع</option>
+                <option value="cherry">🍒 گیلاس</option>
+                <option value="sky">☁️ آسمان</option>
+                <option value="aurora">🌌 شفق</option>
+                <option value="coral">🪸 مرجانی</option>
+                <option value="midnight">🌑 نیمه‌شب</option>
+                <option value="autumn">🍂 پاییز</option>
+                <option value="ice">❄️ یخی</option>
+                <option value="berry">🫐 توت</option>
+                <option value="citrus">🍊 مرکبات</option>
+                <option value="noir">🖤 نوآر</option>
+                <option value="spiderman">🕷️ مرد عنکبوتی</option>
+                <option value="miles-morales">🕸️ مایلز مورالز</option>
+                <option value="newyork">🗽 نیویورک</option>
+                <option value="transparent">💎 شفاف</option>
+                <option value="e-girl">👾 ای‌گرل</option>
+                <option value="pink">💗 صورتی</option>
+                <option value="bookworm">📚 کرم کتاب</option>
+                <option value="ironman">🤖 مرد آهنی</option>
+                <option value="rgb">🌈 رنگین‌کمان</option>
+            </optgroup>
+        </select>
+        <select id="fontSelect">
+            <option value="Inter">Inter (پیش‌فرض)</option>
+            <option value="Vazirmatn">Vazirmatn</option>
+            <option value="Lalezar">Lalezar</option>
+            <option value="Sahel">Sahel</option>
+            <option value="Titr">Titr</option>
+            <option value="Nazanin">Nazanin</option>
+            <option value="Samim">Samim</option>
+            <option value="Gandom">Gandom</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Raleway">Raleway</option>
+            <option value="Nunito">Nunito</option>
+            <option value="PT Sans">PT Sans</option>
+            <option value="Noto Naskh Arabic">Noto Naskh Arabic</option>
+            <option value="Amiri">Amiri</option>
+            <option value="Tajawal">Tajawal</option>
+            <option value="Markazi Text">Markazi Text</option>
+            <option value="Harmattan">Harmattan</option>
+            <option value="Lateef">Lateef</option>
+            <option value="Scheherazade New">Scheherazade New</option>
+            <option value="Reem Kufi">Reem Kufi</option>
+            <option value="Cairo">Cairo</option>
+            <option value="Changa">Changa</option>
+            <option value="El Messiri">El Messiri</option>
+            <option value="Mirza">Mirza</option>
+            <option value="Jomhuria">Jomhuria</option>
+            <option value="B Nazanin">B Nazanin</option>
+        </select>
+        <select id="presetSelect">
+            <option value="">🧩 چیدمان ویجت‌ها</option>
+            <option value="minimal">✨ مینیمال</option>
+            <option value="expert">🧠 حرفه‌ای</option>
+            <option value="liquidglass">💧 شیشه مایع</option>
+            <option value="retro">📻 رترو</option>
+            <option value="colorful">🎨 رنگارنگ</option>
+        </select>
+        <button id="uploadBgBtn"><i class="fas fa-image"></i> پس‌زمینه</button>
+        <button id="resetBgBtn"><i class="fas fa-undo-alt"></i> ریست</button>
+        <input type="file" id="bgUpload" accept="image/*" style="display:none">
+
+        <select id="widgetTypeSelect">
+            <option value="clock">⏰ ساعت</option>
+            <option value="weather">🌤 آب و هوا</option>
+            <option value="notes">📝 یادداشت</option>
+            <option value="todo">✅ لیست کارها</option>
+            <option value="quote">💬 نقل قول</option>
+            <option value="pomodoro">🍅 پومودورو</option>
+            <option value="news">📰 خبرخوان</option>
+            <option value="webapps">🌐 اپ‌های وب</option>
+        </select>
+        <button id="addWidgetBtn"><i class="fas fa-plus-circle"></i> افزودن ویجت</button>
+    </div>
+</div>
+
+<script>
+    // ==================== IndexedDB for audio ====================
+    const DB_NAME = 'M4DailyMusicDB';
+    const STORE_NAME = 'audioFiles';
+    let db = null;
+    function openIndexedDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(DB_NAME, 1);
+            request.onupgradeneeded = (e) => {
+                const db = e.target.result;
+                if (!db.objectStoreNames.contains(STORE_NAME)) db.createObjectStore(STORE_NAME, { keyPath: 'id' });
+            };
+            request.onsuccess = (e) => { db = e.target.result; resolve(db); };
+            request.onerror = (e) => reject(e);
+        });
+    }
+    async function saveAudioFile(id, name, blob) {
+        await openIndexedDB();
+        const tx = db.transaction([STORE_NAME], 'readwrite');
+        tx.objectStore(STORE_NAME).put({ id, name, blob });
+        return new Promise((resolve) => { tx.oncomplete = resolve; });
+    }
+    async function loadAudioFile(id) {
+        await openIndexedDB();
+        return new Promise((resolve) => {
+            const req = db.transaction([STORE_NAME], 'readonly').objectStore(STORE_NAME).get(id);
+            req.onsuccess = () => resolve(req.result);
+        });
+    }
+    async function deleteAudioFile(id) {
+        await openIndexedDB();
+        db.transaction([STORE_NAME], 'readwrite').objectStore(STORE_NAME).delete(id);
+    }
+
+    // ==================== APP STATE ====================
+    let widgets = [], nextId = 1, sortableInstance = null, pomodoroIntervals = {};
+    let bookmarks = [{ name:"Gmail", url:"https://mail.google.com" },{ name:"YouTube", url:"https://youtube.com" },{ name:"GitHub", url:"https://github.com" }];
+    const quotesLibrary = [
+        { text:"مثل آب شفاف باش، نه تیره و نه گل‌آلود", author:"M4" },
+        { text:"هر قطره نور می‌تواند یک دریا شود", author:"Audrey" },
+        { text:"امروز را با آرامش شیشه‌ای شروع کن", author:"Albert" },
+        // 100 extra quotes (unchanged)
+        { text:"موفقیت مجموع تلاش‌های کوچکی است که هر روز تکرار می‌شود", author:"Robert Collier" },
+        { text:"تنها راه انجام کار بزرگ، عشق به کاری است که انجام می‌دهی", author:"Steve Jobs" },
+        { text:"در میان مشکلات، فرصت‌ها نهفته‌اند", author:"Albert Einstein" },
+        { text:"هیچ چیز غیرممکن نیست، کلمه‌ای است که در فرهنگ انسان‌های موفق وجود ندارد", author:"Napoleon Bonaparte" },
+        { text:"شکست فرصتی برای شروع دوباره است، این بار هوشمندانه‌تر", author:"Henry Ford" },
+        { text:"آرامش درون، کلید قدرت است", author:"Bruce Lee" },
+        { text:"هرگز تسلیم نشو، زیرا نمی‌دانی چقدر به موفقیت نزدیک شده‌ای", author:"Winston Churchill" },
+        { text:"سفر هزار فرسنگی با یک قدم آغاز می‌شود", author:"Lao Tzu" },
+        { text:"خلاقیت یعنی دیدن چیزی که همه دیده‌اند و فکر کردن به چیزی که هیچ‌کس فکر نکرده است", author:"Albert Szent-Györgyi" },
+        { text:"زندگی ۱۰٪ آن چیزی است که برایت اتفاق می‌افتد و ۹۰٪ واکنشی است که نشان می‌دهی", author:"Charles R. Swindoll" },
+        { text:"وقتی که از زندگی دست می‌کشی، زندگی نیز از تو دست می‌کشد", author:"Shakespeare" },
+        { text:"رویاهایت را باور کن، آنها نقشه‌های روح تو هستند", author:"Paulo Coelho" },
+        { text:"آنچه هستی هدیه‌ای از خداست، آنچه می‌شوی هدیه‌ای تو به خداست", author:"Hans Urs von Balthasar" },
+        { text:"خنده، زیباترین فاصله بین دو نفر است", author:"Victor Borge" },
+        { text:"مهم نیست چقدر آهسته می‌روی، تا زمانی که متوقف نشده‌ای", author:"Confucius" },
+        { text:"مشکل را از مسیر بردار، نه مسیر را", author:"Rumi" },
+        { text:"فردا همیشه یک روز جدید است، اشتباهی در آن نیست", author:"L.M. Montgomery" },
+        { text:"بزرگترین افتخار در افتادن نیست، در برخاستن پس از هر افتادن است", author:"Nelson Mandela" },
+        { text:"همه چیز در ذهن آغاز می‌شود. آنچه فکر می‌کنی، همان می‌شوی", author:"Buddha" },
+        { text:"ما همان چیزی می‌شویم که بیشتر به آن فکر می‌کنیم", author:"Earl Nightingale" },
+        { text:"پیروزی متعلق به کسی است که بیشترین استقامت را دارد", author:"Napoleon Bonaparte" },
+        { text:"اگر می‌خواهی دنیا را تغییر دهی، اول خودت را تغییر بده", author:"Mahatma Gandhi" },
+        { text:"هر روز یک فرصت تازه برای تغییر دادن زندگی است", author:"Anonymous" },
+        { text:"آنها که قادر به تغییر افکارشان نیستند، قادر به تغییر هیچ چیز نیستند", author:"George Bernard Shaw" },
+        { text:"بهترین زمان برای کاشت یک درخت ۲۰ سال پیش بود. دومین زمان، اکنون است", author:"Chinese Proverb" },
+        { text:"در زندگی هیچ محدودیتی جز محدودیت‌هایی که خودت ایجاد می‌کنی وجود ندارد", author:"Les Brown" },
+        { text:"دشوارترین قدم، اولین قدم است", author:"Mark Twain" },
+        { text:"یا راهی خواهم یافت، یا راهی خواهم ساخت", author:"Hannibal" },
+        { text:"فرق بین ممکن و غیرممکن در عزم راسخ است", author:"Tommy Lasorda" },
+        { text:"آفتاب به پشت ابرها نیز می‌تابد، پس به راهت ادامه بده", author:"Roy T. Bennett" },
+        { text:"اگر می‌توانی آن را در ذهنت تصور کنی، می‌توانی به آن دست یابی", author:"Walt Disney" },
+        { text:"آینده متعلق به کسانی است که به زیبایی رویاهایشان باور دارند", author:"Eleanor Roosevelt" },
+        { text:"هر چه بیشتر تلاش کنی، شانس بیشتری به سراغت می‌آید", author:"Thomas Jefferson" },
+        { text:"موفقیت یعنی از شکستی به شکست دیگر رفتن بدون از دست دادن اشتیاق", author:"Winston Churchill" },
+        { text:"آنچه پشت سر ماست و آنچه پیش روی ماست در مقایسه با آنچه درون ماست چیزهای کوچکی هستند", author:"Ralph Waldo Emerson" },
+        { text:"برای رسیدن به قله، سقوط مقدمه است", author:"Molière" },
+        { text:"شما هرگز برای تبدیل شدن به آنچه می‌خواهید خیلی پیر نیستید", author:"C.S. Lewis" },
+        { text:"بزرگترین ریسک، ریسک نکردن است", author:"Mark Zuckerberg" },
+        { text:"تنهایی بهتر از همنشین بد است", author:"Imam Ali" },
+        { text:"ارزش هرکس به اندازه‌ی چیزی است که به آن دل بسته است", author:"Marcus Aurelius" },
+        { text:"عمل، کلید طلایی موفقیت است", author:"Pablo Picasso" },
+        { text:"راز رسیدن به موفقیت در ثبات قدم است", author:"Benjamin Disraeli" },
+        { text:"هر کاری که انجام می‌دهی، با عشق انجام بده", author:"Mother Teresa" },
+        { text:"قدرت تخیل از دانش مهم‌تر است", author:"Albert Einstein" },
+        { text:"شجاعت مانند عضله است، با استفاده قوی‌تر می‌شود", author:"Ruth Gordon" },
+        { text:"همیشه اولین قدم را بردار، حتی اگر نتوانی کل مسیر را ببینی", author:"Martin Luther King Jr." },
+        { text:"زندگی یا ماجرایی جسورانه است یا هیچ", author:"Helen Keller" },
+        { text:"بگذار زیبایی آنچه را که دوست داری، همان چیزی باشد که انجام می‌دهی", author:"Rumi" },
+        { text:"اگر می‌خواهی رنگین کمان را ببینی، باید باران را تحمل کنی", author:"Dolly Parton" },
+        { text:"خوشبختی یک مقصد نیست، یک روش سفر است", author:"Margaret Lee Runbeck" },
+        { text:"بهترین راه برای پیش‌بینی آینده، ساختن آن است", author:"Peter Drucker" },
+        { text:"آرام باش و بدان که خدا خداست", author:"Psalm 46:10" },
+        { text:"در تاریک‌ترین لحظات، ستاره‌ها هنوز می‌درخشند", author:"Harriet Tubman" },
+        { text:"ما آنقدر قوی هستیم که بتوانیم هر چیزی را تحمل کنیم", author:"Joan Didion" },
+        { text:"فکرهایت را عوض کن، دنیایت را عوض می‌کنی", author:"Norman Vincent Peale" },
+        { text:"اگر عاشق کاری باشی، یک روز هم در زندگی‌ات کار نکرده‌ای", author:"Confucius" },
+        { text:"هر استادی روزی مبتدی بوده است", author:"Anonymous" },
+        { text:"آنچه ما امروز انجام می‌دهیم، فردای ما را می‌سازد", author:"Anonymous" },
+        { text:"خودت باش، همه نقش‌های دیگر قبلاً گرفته شده‌اند", author:"Oscar Wilde" },
+        { text:"هرگز از یک شکست نترس، از شروع نکردن بترس", author:"Anonymous" },
+        { text:"افکارت را متمرکز کن، انرژی‌ات را هدر نده", author:"Bruce Lee" },
+        { text:"اگر اشتباه نکنی، هرگز چیز جدیدی یاد نمی‌گیری", author:"Albert Einstein" },
+        { text:"پیروزی از آن کسی است که یک بار بیشتر از بقیه بلند شود", author:"Japanese Proverb" },
+        { text:"زندگیت را با صدای درونت هماهنگ کن", author:"Steve Jobs" },
+        { text:"عشق مثل آب روان است، باید جریان داشته باشد", author:"M4" },
+        { text:"مثل شیشه شفاف باش، نوری از تو بگذرد", author:"Rumi" },
+        { text:"زمان ارزشمندترین دارایی است، آن را هدر نده", author:"Theophrastus" },
+        { text:"هر چیزی که ارزشمند باشد، به قیمت تلاش به دست می‌آید", author:"Andrew Carnegie" },
+        { text:"برای پرواز باید از ارتفاع نترسید", author:"Anonymous" },
+        { text:"آنچه بکاری، همان را درو می‌کنی", author:"Bible" },
+        { text:"در ناامیدی‌ها، امید را پیدا کن", author:"Charles Dickens" },
+        { text:"اگر به اندازه کافی شجاع باشی، دنیا از سر راهت کنار می‌رود", author:"Anonymous" },
+        { text:"تنها محدودیت واقعی، ذهن توست", author:"Napoleon Hill" },
+        { text:"بهترین چیزها در زندگی رایگان هستند: آغوش، لبخند، دوستان، خواب، عشق", author:"Anonymous" },
+        { text:"به جای نفرین تاریکی، یک شمع روشن کن", author:"Confucius" },
+        { text:"بگذار چشمانت را به خورشید بدوزی، آن وقت سایه‌ها پشت سرت می‌افتند", author:"Walt Whitman" },
+        { text:"اگر می‌خواهی چیزی را که هرگز نداشته‌ای به دست آوری، باید کاری را انجام دهی که هرگز انجام نداده‌ای", author:"Thomas Jefferson" },
+        { text:"در آرامش، قدرت نهفته است", author:"Lao Tzu" },
+        { text:"خودت باشی، دنیا به تو احترام می‌گذارد", author:"Ralph Waldo Emerson" },
+        { text:"آنچه را که امروز انجام می‌دهی، می‌تواند تمام فرداهایت را تغییر دهد", author:"Anonymous" },
+        { text:"باید تغییر باشی که می‌خواهی در جهان ببینی", author:"Mahatma Gandhi" },
+        { text:"زندگی کوتاه است، لبخند بزن در حالی که هنوز دندان داری", author:"Anonymous" },
+        { text:"آنان که می‌گویند کاری نشدنی است، نباید مانع کسانی شوند که آن را انجام می‌دهند", author:"Chinese Proverb" },
+        { text:"هرگاه دیدی چیزی غیرممکن است، کسی پیدا می‌شود که آن را انجام دهد", author:"Albert Einstein" },
+        { text:"خوشبینی، ایمانی است که به موفقیت می‌انجامد", author:"Helen Keller" },
+        { text:"بپذیر که آنچه هستی، بهایی دارد و آنچه می‌خواهی، بهای بیشتری", author:"Anonymous" },
+        { text:"یادگیری هرگز متوقف نمی‌شود؛ زندگی یک کلاس درس بی‌پایان است", author:"Anonymous" },
+        { text:"دوستان واقعی مانند ستاره‌ها هستند، همیشه آنجا هستند حتی اگر دیده نشوند", author:"Anonymous" },
+        { text:"درختان ریشه‌هایشان در خاک است، اما سرشان در آسمان؛ تو نیز ریشه‌هایت را محکم کن", author:"Anonymous" },
+        { text:"هر شکست، درس است؛ هر موفقیت، پاداش", author:"Anonymous" },
+        { text:"زندگی بدون هدف مانند کشتی بدون سکان است", author:"Thomas Carlyle" },
+        { text:"اگر می‌خواهی سریع بروی، تنها برو. اگر می‌خواهی دور بروی، با هم برو", author:"African Proverb" },
+        { text:"فکرهای بزرگ داشته باش، اما از شادی‌های کوچک لذت ببر", author:"Anonymous" },
+        { text:"آنچه هستی با صدای بلند فریاد می‌زند، نمی‌گذارد بشنوم چه می‌گویی", author:"Ralph Waldo Emerson" },
+        { text:"هر روز یک شانس تازه برای شروع دوباره است", author:"Anonymous" },
+        { text:"انسان می‌تواند با تغییر نگرش خود، آینده‌اش را تغییر دهد", author:"William James" },
+        { text:"بگذار قلبت راه را نشان دهد، ذهن دنبال می‌کند", author:"Anonymous" },
+        { text:"مهمترین چیز در زندگی، یاد گرفتن چگونه عشق ورزیدن است", author:"Anonymous" },
+        { text:"موسیقی می‌تواند روح را التیام بخشد", author:"Plato" },
+        { text:"هنر، پنجره‌ای به روح انسان است", author:"Anonymous" },
+        { text:"تنها در سکوت است که می‌توانی ندای درونت را بشنوی", author:"Anonymous" }
+    ];
+    function getRandomQuote(){ return quotesLibrary[Math.floor(Math.random() * quotesLibrary.length)]; }
+
+    // ==================== RSS ====================
+    const DEFAULT_RSS = "https://www.zomit.ir/feed";
+    async function fetchRSS(feedUrl) {
+        try {
+            const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`;
+            const resp = await fetch(proxy);
+            if (!resp.ok) throw new Error();
+            const xml = await resp.text();
+            const doc = new DOMParser().parseFromString(xml, "text/xml");
+            const items = doc.querySelectorAll("item");
+            const articles = [];
+            for (let i = 0; i < Math.min(items.length, 10); i++) {
+                const title = items[i].querySelector("title")?.textContent || "بدون عنوان";
+                const link = items[i].querySelector("link")?.textContent || "#";
+                let timeAgo = "جدید";
+                const pubDate = items[i].querySelector("pubDate")?.textContent;
+                if (pubDate) {
+                    try {
+                        const d = new Date(pubDate);
+                        const mins = Math.floor((new Date() - d) / 60000);
+                        if (mins < 60) timeAgo = `${mins} دقیقه`;
+                        else if (mins < 1440) timeAgo = `${Math.floor(mins/60)} ساعت`;
+                        else timeAgo = `${Math.floor(mins/1440)} روز`;
+                    } catch(e) {}
+                }
+                articles.push({ title, link, time: timeAgo, source: new URL(feedUrl).hostname.replace('www.','') });
+            }
+            return articles;
+        } catch(e) { return null; }
+    }
+    async function refreshNewsWidget(wid) {
+        const w = widgets.find(w => w.id === wid);
+        if (!w || w.type !== "news") return;
+        const url = w.data.feedUrl || DEFAULT_RSS;
+        w.data.loading = true;
+        renderAllWidgets();
+        const articles = await fetchRSS(url);
+        if (articles) {
+            w.data.articles = articles;
+            w.data.lastUpdate = new Date().toLocaleTimeString('fa-IR');
+            w.data.error = null;
+        } else {
+            w.data.error = "خطا در دریافت خوراک. لینک معتبر است؟";
+            if (!w.data.articles) w.data.articles = [];
+        }
+        w.data.loading = false;
+        saveToLocalStorage();
+        renderAllWidgets();
+    }
+    async function setNewsFeed(wid, newUrl) {
+        let url = newUrl.trim();
+        if (!url.startsWith("http")) url = "https://" + url;
+        const w = widgets.find(w => w.id === wid);
+        if (w) {
+            w.data.feedUrl = url;
+            w.data.articles = [];
+            w.data.lastUpdate = "در حال بارگذاری...";
+            saveToLocalStorage();
+            await refreshNewsWidget(wid);
+        }
+    }
+
+    // ==================== Storage helpers ====================
+    function saveToLocalStorage() { localStorage.setItem('m4daily_widgets', JSON.stringify(widgets)); localStorage.setItem('m4daily_bookmarks', JSON.stringify(bookmarks)); }
+    function loadFromLocalStorage() {
+        const saved = localStorage.getItem('m4daily_widgets');
+        if (saved) { widgets = JSON.parse(saved); if (widgets.length) nextId = Math.max(...widgets.map(w => w.id)) + 1; return true; }
+        return false;
+    }
+    function loadBookmarks() {
+        const saved = localStorage.getItem('m4daily_bookmarks');
+        if (saved) bookmarks = JSON.parse(saved);
+        renderBookmarkBar();
+    }
+    function initDefaultWidgets() {
+        widgets = [];
+        widgets.push({ id: nextId++, type: "clock", data: {} });
+        widgets.push({ id: nextId++, type: "weather", data: { city: "تهران", temp: "24", condition: "آفتابی" } });
+        widgets.push({ id: nextId++, type: "notes", data: { text: "یادداشت‌های روزانه..." } });
+        widgets.push({ id: nextId++, type: "todo", data: { tasks: ["افزودن اپ وب", "آپلود آهنگ"] } });
+        widgets.push({ id: nextId++, type: "quote", data: getRandomQuote() });
+        widgets.push({ id: nextId++, type: "pomodoro", data: { minutes: 25, seconds: 0, isRunning: false, mode: "work", workDuration: 25, breakDuration: 5 } });
+        widgets.push({ id: nextId++, type: "news", data: { feedUrl: DEFAULT_RSS, articles: [], lastUpdate: "---", loading: false, error: null } });
+        widgets.push({ id: nextId++, type: "webapps", data: { apps: [{ name: "Gmail", url: "https://mail.google.com", icon: "fa-envelope" }, { name: "YouTube", url: "https://youtube.com", icon: "fa-play" }] } });
+        widgets.push({ id: nextId++, type: "music", data: { playlist: [], currentTrack: 0, isPlaying: false, shuffle: false } });
+        setTimeout(() => { const nw = widgets.find(w => w.type === "news"); if (nw) refreshNewsWidget(nw.id); }, 500);
+    }
+    function updateWidgetData(wid, newData) { let idx = widgets.findIndex(w => w.id === wid); if (idx !== -1) { widgets[idx].data = { ...widgets[idx].data, ...newData }; saveToLocalStorage(); renderAllWidgets(); } }
+    function addTodoTask(wid, task) { let w = widgets.find(w => w.id === wid); if (w && w.type === 'todo') { w.data.tasks.push(task.trim()); saveToLocalStorage(); renderAllWidgets(); } }
+    function removeTodoTask(wid, idx) { let w = widgets.find(w => w.id === wid); if (w) { w.data.tasks.splice(idx, 1); saveToLocalStorage(); renderAllWidgets(); } }
+    function updateNoteText(wid, text) { let w = widgets.find(w => w.id === wid); if (w) { w.data.text = text; saveToLocalStorage(); } }
+    function refreshQuote(wid) { updateWidgetData(wid, getRandomQuote()); }
+    function removeWidgetById(id) { widgets = widgets.filter(w => w.id !== id); saveToLocalStorage(); renderAllWidgets(); }
+    function addNewWidget(type) {
+        let newW = null;
+        if (type === 'clock') newW = { id: nextId++, type: "clock", data: {} };
+        else if (type === 'weather') newW = { id: nextId++, type: "weather", data: { city: "تهران", temp: "22", condition: "نیمه ابری" } };
+        else if (type === 'notes') newW = { id: nextId++, type: "notes", data: { text: "یادداشت جدید..." } };
+        else if (type === 'todo') newW = { id: nextId++, type: "todo", data: { tasks: ["وظیفه جدید"] } };
+        else if (type === 'quote') newW = { id: nextId++, type: "quote", data: getRandomQuote() };
+        else if (type === 'pomodoro') newW = { id: nextId++, type: "pomodoro", data: { minutes: 25, seconds: 0, isRunning: false, mode: "work", workDuration: 25, breakDuration: 5 } };
+        else if (type === 'news') newW = { id: nextId++, type: "news", data: { feedUrl: DEFAULT_RSS, articles: [], lastUpdate: "---", loading: false, error: null } };
+        else if (type === 'webapps') newW = { id: nextId++, type: "webapps", data: { apps: [{ name: "Example", url: "https://example.com", icon: "fa-globe" }] } };
+        else if (type === 'music') newW = { id: nextId++, type: "music", data: { playlist: [], currentTrack: 0, isPlaying: false, shuffle: false } };
+        if (newW) { widgets.push(newW); saveToLocalStorage(); renderAllWidgets(); if (type === 'news') setTimeout(() => refreshNewsWidget(newW.id), 100); }
+    }
+    // Pomodoro
+    function openPomodoroSettings(wid) { let w = widgets.find(w => w.id === wid); if (!w) return; let work = prompt("مدت کار (دقیقه):", w.data.workDuration || 25); let brk = prompt("مدت استراحت:", w.data.breakDuration || 5); if (work) w.data.workDuration = parseInt(work); if (brk) w.data.breakDuration = parseInt(brk); if (w.data.mode === "work") w.data.minutes = w.data.workDuration; else w.data.minutes = w.data.breakDuration; w.data.seconds = 0; if (w.data.isRunning && pomodoroIntervals[wid]) { clearInterval(pomodoroIntervals[wid]); w.data.isRunning = false; delete pomodoroIntervals[wid]; } saveToLocalStorage(); renderAllWidgets(); }
+    function startPomodoroTimer(wid) { if (pomodoroIntervals[wid]) clearInterval(pomodoroIntervals[wid]); const interval = setInterval(() => { let w = widgets.find(w => w.id === wid); if (!w || w.type !== "pomodoro") { clearInterval(pomodoroIntervals[wid]); delete pomodoroIntervals[wid]; return; } let m = w.data.minutes, s = w.data.seconds; if (m === 0 && s === 0) { clearInterval(pomodoroIntervals[wid]); delete pomodoroIntervals[wid]; w.data.isRunning = false; let newMode = w.data.mode === "work" ? "break" : "work"; w.data.mode = newMode; w.data.minutes = newMode === "work" ? w.data.workDuration : w.data.breakDuration; w.data.seconds = 0; saveToLocalStorage(); renderAllWidgets(); return; } if (s === 0) { m--; s = 59; } else { s--; } w.data.minutes = m; w.data.seconds = s; saveToLocalStorage(); renderAllWidgets(); }, 1000); pomodoroIntervals[wid] = interval; }
+    function togglePomodoro(wid) { let w = widgets.find(w => w.id === wid); if (!w) return; if (w.data.isRunning) { w.data.isRunning = false; if (pomodoroIntervals[wid]) clearInterval(pomodoroIntervals[wid]); delete pomodoroIntervals[wid]; } else { w.data.isRunning = true; startPomodoroTimer(wid); } saveToLocalStorage(); renderAllWidgets(); }
+    function resetPomodoro(wid) { let w = widgets.find(w => w.id === wid); if (!w) return; if (pomodoroIntervals[wid]) clearInterval(pomodoroIntervals[wid]); delete pomodoroIntervals[wid]; w.data.isRunning = false; w.data.minutes = w.data.mode === "work" ? w.data.workDuration : w.data.breakDuration; w.data.seconds = 0; saveToLocalStorage(); renderAllWidgets(); }
+    function addWebApp(wid, name, url) { let w = widgets.find(w => w.id === wid); if (w && w.type === 'webapps') { if (!w.data.apps) w.data.apps = []; w.data.apps.push({ name, url, icon: "fa-link" }); saveToLocalStorage(); renderAllWidgets(); } }
+    function removeWebApp(wid, idx) { let w = widgets.find(w => w.id === wid); if (w && w.type === 'webapps') { w.data.apps.splice(idx, 1); saveToLocalStorage(); renderAllWidgets(); } }
+    // Music player
+    let musicPlayers = {};
+    function getAudio(wid) { if (!musicPlayers[wid]) musicPlayers[wid] = new Audio(); return musicPlayers[wid]; }
+    async function addTrack(wid, file) {
+        const id = `${wid}_${Date.now()}_${file.name}`;
+        await saveAudioFile(id, file.name, file);
+        const blobUrl = URL.createObjectURL(file);
+        const w = widgets.find(w => w.id === wid);
+        if (w && w.type === 'music') {
+            if (!w.data.playlist) w.data.playlist = [];
+            w.data.playlist.push({ id, title: file.name, blobUrl, isLocal: true });
+            saveToLocalStorage(); renderAllWidgets();
+        }
+    }
+    async function playTrack(wid, idx) { let w = widgets.find(w => w.id === wid); if (!w || w.type !== "music") return; let pl = w.data.playlist || []; if (idx >= pl.length) idx = 0; if (!pl.length) return; w.data.currentTrack = idx; let track = pl[idx]; let audio = getAudio(wid); audio.pause(); if (track.blobUrl) audio.src = track.blobUrl; else return; await audio.play(); w.data.isPlaying = true; audio.onended = () => nextTrack(wid); saveToLocalStorage(); renderAllWidgets(); }
+    function toggleMusic(wid) { let w = widgets.find(w => w.id === wid); if (!w || w.type !== "music") return; let audio = getAudio(wid); if (w.data.isPlaying) { audio.pause(); w.data.isPlaying = false; } else { if (audio.src) audio.play(); else if (w.data.playlist.length) playTrack(wid, w.data.currentTrack || 0); w.data.isPlaying = true; } saveToLocalStorage(); renderAllWidgets(); }
+    function nextTrack(wid) { let w = widgets.find(w => w.id === wid); if (!w || w.type !== "music") return; let pl = w.data.playlist; if (!pl.length) return; let next = w.data.shuffle ? Math.floor(Math.random() * pl.length) : ((w.data.currentTrack || 0) + 1) % pl.length; playTrack(wid, next); }
+    function prevTrack(wid) { let w = widgets.find(w => w.id === wid); if (!w || w.type !== "music") return; let pl = w.data.playlist; if (!pl.length) return; let prev = w.data.shuffle ? Math.floor(Math.random() * pl.length) : (w.data.currentTrack - 1 + pl.length) % pl.length; playTrack(wid, prev); }
+    function toggleShuffle(wid) { let w = widgets.find(w => w.id === wid); if (w && w.type === 'music') { w.data.shuffle = !w.data.shuffle; saveToLocalStorage(); renderAllWidgets(); } }
+    async function removeTrack(wid, idx) { let w = widgets.find(w => w.id === wid); if (w && w.type === 'music') { let track = w.data.playlist[idx]; if (track && track.isLocal && track.id) { await deleteAudioFile(track.id); if (track.blobUrl) URL.revokeObjectURL(track.blobUrl); } w.data.playlist.splice(idx, 1); if (w.data.currentTrack >= w.data.playlist.length) w.data.currentTrack = 0; if (w.data.playlist.length === 0) getAudio(wid).pause(); saveToLocalStorage(); renderAllWidgets(); } }
+
+    // ==================== RENDER ALL WIDGETS ====================
+    async function renderAllWidgets() {
+        const grid = document.getElementById("widgetsGrid");
+        if (!grid) return;
+        grid.innerHTML = "";
+        if (widgets.length === 0) { grid.innerHTML = '<div class="widget" style="text-align:center; padding:2rem;">✨ ویجتی وجود ندارد، از دکمه افزودن استفاده کنید ✨</div>'; if (sortableInstance) sortableInstance.destroy(); return; }
+        for (let w of widgets) {
+            const card = document.createElement("div"); card.className = "widget"; card.dataset.id = w.id;
+            const header = document.createElement("div"); header.className = "widget-header";
+            const titleSpan = document.createElement("div"); titleSpan.className = "widget-title";
+            let icon = "fas fa-cube", titleText = "";
+            if (w.type === 'clock') { icon = "far fa-clock"; titleText = "ساعت شیشه‌ای"; }
+            else if (w.type === 'weather') { icon = "fas fa-cloud-sun"; titleText = "آب و هوا"; }
+            else if (w.type === 'notes') { icon = "fas fa-pen-fancy"; titleText = "یادداشت"; }
+            else if (w.type === 'todo') { icon = "fas fa-check-circle"; titleText = "لیست کارها"; }
+            else if (w.type === 'quote') { icon = "fas fa-quote-right"; titleText = "نقل قول"; }
+            else if (w.type === 'pomodoro') { icon = "fas fa-hourglass-half"; titleText = "پومودورو"; }
+            else if (w.type === 'news') { icon = "fas fa-newspaper"; titleText = "M4-News RSS"; }
+            else if (w.type === 'webapps') { icon = "fas fa-globe"; titleText = "اپ‌های وب"; }
+            else if (w.type === 'music') { icon = "fas fa-music"; titleText = "پخش‌کننده مایع"; }
+            titleSpan.innerHTML = `<i class="${icon}"></i> ${titleText}`;
+            const removeBtn = document.createElement("button"); removeBtn.className = "remove-widget"; removeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>'; removeBtn.onclick = () => removeWidgetById(w.id);
+            header.appendChild(titleSpan); header.appendChild(removeBtn);
+            const content = document.createElement("div"); content.className = "widget-content";
+            if (w.type === 'clock') content.innerHTML = `<div class="liquid-clock">--:--:--</div><div class="date-full" style="text-align:center; margin-top:6px"></div><div class="persian-date" style="text-align:center"></div>`;
+            else if (w.type === 'weather') content.innerHTML = `<div><h3>${w.data.temp}°C</h3><p>${w.data.city}</p><small>${w.data.condition}</small></div>`;
+            else if (w.type === 'notes') { let ta = document.createElement("textarea"); ta.rows = 3; ta.style.width = "100%"; ta.style.borderRadius = "24px"; ta.value = w.data.text || ""; ta.oninput = e => updateNoteText(w.id, e.target.value); content.appendChild(ta); }
+            else if (w.type === 'todo') { let ul = document.createElement("ul"); ul.className = "todo-list"; (w.data.tasks || []).forEach((t, idx) => { let li = document.createElement("li"); li.className = "todo-item"; li.innerHTML = `<span>${escapeHtml(t)}</span><button class="del-todo" style="background:#c0392b; padding:4px 12px;">✖</button>`; li.querySelector(".del-todo").onclick = () => removeTodoTask(w.id, idx); ul.appendChild(li); }); let inp = document.createElement("input"); inp.placeholder = "کار جدید..."; let addBtn = document.createElement("button"); addBtn.innerText = "افزودن"; addBtn.onclick = () => { if (inp.value.trim()) addTodoTask(w.id, inp.value); inp.value = ""; }; let div = document.createElement("div"); div.style.display = "flex"; div.style.gap = "8px"; div.appendChild(inp); div.appendChild(addBtn); content.appendChild(ul); content.appendChild(div); }
+            else if (w.type === 'quote') content.innerHTML = `<div style="font-style:italic">“ ${escapeHtml(w.data.text)} ”</div><div style="margin-top:6px">- ${escapeHtml(w.data.author)}</div><button class="refresh-quote" style="margin-top:12px">نقل قول جدید</button>`;
+            else if (w.type === 'pomodoro') content.innerHTML = `<div><strong>${w.data.mode === "work" ? "📘 کار" : "🍃 استراحت"}</strong></div><div class="timer-display" style="font-size:2rem; text-align:center">${String(w.data.minutes).padStart(2, '0')}:${String(w.data.seconds).padStart(2, '0')}</div><div><button class="pomo-startstop">${w.data.isRunning ? "⏸ توقف" : "▶ شروع"}</button> <button class="pomo-reset">🔄 ریست</button> <button class="pomo-settings">⚙ تنظیمات</button></div>`;
+            else if (w.type === 'news') {
+                let feed = w.data.feedUrl || DEFAULT_RSS; let arts = w.data.articles || []; let loading = w.data.loading; let err = w.data.error;
+                let html = `<div style="background:rgba(0,0,0,0.2); border-radius:24px; padding:12px; margin-bottom:12px;"><input id="newsInput_${w.id}" value="${escapeHtml(feed)}" style="flex:1"><button id="changeNews_${w.id}">تغییر</button><button id="refreshNews_${w.id}"><i class="fas fa-sync-alt"></i></button></div><div style="font-size:0.7rem">آخرین بروزرسانی: ${w.data.lastUpdate || '---'}</div>`;
+                if (loading) html += `<div style="padding:1rem"><i class="fas fa-spinner fa-pulse"></i> دریافت اخبار...</div>`;
+                else if (err) html += `<div style="color:#ffa">${escapeHtml(err)}</div>`;
+                else if (arts.length === 0) html += `<div>هیچ خبری یافت نشد.</div>`;
+                else arts.forEach(a => { html += `<div class="news-item" onclick="window.open('${escapeHtml(a.link)}','_blank')"><div><strong>📌 ${escapeHtml(a.title)}</strong></div><div style="font-size:0.7rem">⏱ ${a.time} · ${a.source}</div></div>`; });
+                content.innerHTML = html;
+                content.querySelector(`#changeNews_${w.id}`).onclick = () => setNewsFeed(w.id, content.querySelector(`#newsInput_${w.id}`).value);
+                content.querySelector(`#refreshNews_${w.id}`).onclick = () => refreshNewsWidget(w.id);
+            }
+            else if (w.type === 'webapps') {
+                let apps = w.data.apps || []; let gridDiv = document.createElement("div"); gridDiv.style.display = "flex"; gridDiv.style.flexWrap = "wrap"; gridDiv.style.gap = "12px";
+                apps.forEach((app, idx) => { let a = document.createElement("a"); a.href = app.url; a.target = "_blank"; a.style.background = "rgba(255,255,255,0.1)"; a.style.borderRadius = "20px"; a.style.padding = "8px 12px"; a.style.textDecoration = "none"; a.style.color = "var(--text-primary)"; a.style.width = "80px"; a.style.textAlign = "center"; a.innerHTML = `<i class="fas ${app.icon || 'fa-link'} fa-2x"></i><div>${escapeHtml(app.name)}</div>`; let del = document.createElement("button"); del.innerText = "✖"; del.onclick = (e) => { e.preventDefault(); removeWebApp(w.id, idx); }; let wrapper = document.createElement("div"); wrapper.appendChild(a); wrapper.appendChild(del); gridDiv.appendChild(wrapper); });
+                let addDiv = document.createElement("div"); addDiv.innerHTML = `<input id="appName_${w.id}" placeholder="نام"><input id="appUrl_${w.id}" placeholder="URL"><button onclick="addWebApp(${w.id},document.getElementById('appName_${w.id}').value,document.getElementById('appUrl_${w.id}').value)">افزودن</button>`;
+                content.appendChild(gridDiv); content.appendChild(addDiv);
+            }
+            else if (w.type === 'music') {
+                let pl = w.data.playlist || []; let cur = w.data.currentTrack; let curTitle = pl[cur] ? pl[cur].title : "هیچ آهنگی";
+                let html = `<div class="music-glass"><div style="text-align:center; margin-bottom:10px;"><i class="fas fa-headphones"></i> <strong>${escapeHtml(curTitle)}</strong></div><div class="control-buttons"><button class="prev-music"><i class="fas fa-backward"></i></button><button class="play-music">${w.data.isPlaying ? '<i class="fas fa-pause"></i>' : '<i class="fas fa-play"></i>'}</button><button class="next-music"><i class="fas fa-forward"></i></button><button class="shuffle-music" style="${w.data.shuffle ? 'background:var(--accent-hover); box-shadow:var(--accent-glow);' : ''}"><i class="fas fa-random"></i></button></div><div class="playlist-items">${pl.map((t, idx) => `<div class="track-item" data-idx="${idx}">🎵 ${escapeHtml(t.title)} <button class="del-track" data-idx="${idx}"><i class="fas fa-trash-alt"></i></button></div>`).join('')}${pl.length === 0 ? '<div style="text-align:center; padding:10px;">🎶 آپلود آهنگ از دستگاه</div>' : ''}</div><div><label class="file-upload-label" style="background:var(--accent); padding:6px 16px; border-radius:40px; cursor:pointer; display:inline-block;"><i class="fas fa-upload"></i> آپلود آهنگ</label><input type="file" id="musicUpload_${w.id}" accept="audio/*" multiple style="display:none"></div></div>`;
+                content.innerHTML = html;
+                content.querySelector(".play-music").onclick = () => toggleMusic(w.id);
+                content.querySelector(".prev-music").onclick = () => prevTrack(w.id);
+                content.querySelector(".next-music").onclick = () => nextTrack(w.id);
+                content.querySelector(".shuffle-music").onclick = () => toggleShuffle(w.id);
+                const inp = content.querySelector(`#musicUpload_${w.id}`);
+                content.querySelector(".file-upload-label").onclick = () => inp.click();
+                inp.onchange = async (e) => { for (let f of e.target.files) await addTrack(w.id, f); inp.value = ''; };
+                content.querySelectorAll(".track-item").forEach(item => { let idx = parseInt(item.dataset.idx); item.onclick = (e) => { if (!e.target.closest('.del-track')) playTrack(w.id, idx); }; item.querySelector(".del-track")?.addEventListener('click', (e) => { e.stopPropagation(); removeTrack(w.id, idx); }); });
+            }
+            if (w.type === 'quote') content.querySelector(".refresh-quote")?.addEventListener('click', () => refreshQuote(w.id));
+            if (w.type === 'pomodoro') {
+                content.querySelector(".pomo-startstop").onclick = () => togglePomodoro(w.id);
+                content.querySelector(".pomo-reset").onclick = () => resetPomodoro(w.id);
+                content.querySelector(".pomo-settings").onclick = () => openPomodoroSettings(w.id);
+            }
+            card.appendChild(header); card.appendChild(content); grid.appendChild(card);
+        }
+        updateClockDate();
+        if (sortableInstance) sortableInstance.destroy();
+        sortableInstance = new Sortable(grid, { animation: 350, handle: '.widget', onEnd: () => { const newOrder = []; document.querySelectorAll('.widget').forEach(card => { const id = parseInt(card.dataset.id); const found = widgets.find(w => w.id === id); if (found) newOrder.push(found); }); if (newOrder.length === widgets.length) { widgets = newOrder; saveToLocalStorage(); } } });
+    }
+    function updateClockDate() {
+        let now = new Date(); let time = now.toLocaleTimeString('fa-IR'); let date = now.toLocaleDateString('fa-IR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }); let persian = new Intl.DateTimeFormat('fa-IR', { year: 'numeric', month: 'long', day: 'numeric' }).format(now);
+        document.querySelectorAll('.liquid-clock').forEach(el => el.innerText = time);
+        document.querySelectorAll('.date-full').forEach(el => el.innerText = date);
+        document.querySelectorAll('.persian-date').forEach(el => el.innerText = persian);
+    }
+    function escapeHtml(str) { if (!str) return ""; return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : m === '<' ? '&lt;' : '&gt;'); }
+
+    // ---------- REDESIGNED BOOKMARK RENDERER (bigger, logo on top, name bottom) ----------
+    function getFaviconUrl(url) {
+        try {
+            const domain = new URL(url).hostname;
+            return `https://www.google.com/s2/favicons?domain=${domain}&sz=64`;
+        } catch(e) {
+            return 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23aaa" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>';
+        }
+    }
+    function renderBookmarkBar() {
+        let bar = document.getElementById("bookmarkBar");
+        if (!bar) return;
+        bar.innerHTML = "";
+        bookmarks.forEach((bm, idx) => {
+            const wrapper = document.createElement("div");
+            wrapper.className = "bookmark-item-wrapper";
+
+            const a = document.createElement("a");
+            a.href = bm.url;
+            a.target = "_blank";
+            a.className = "bookmark";
+            const img = document.createElement("img");
+            img.src = getFaviconUrl(bm.url);
+            img.alt = "";
+            img.onerror = () => { img.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23aaa" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>'; };
+            a.appendChild(img);
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = bm.name;
+            a.appendChild(nameSpan);
+            wrapper.appendChild(a);
+
+            const actionsDiv = document.createElement("div");
+            actionsDiv.className = "bookmark-actions";
+            const editBtn = document.createElement("button");
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editBtn.onclick = () => {
+                let nn = prompt("نام جدید", bm.name);
+                if (nn) bm.name = nn;
+                let nu = prompt("آدرس", bm.url);
+                if (nu) bm.url = nu;
+                saveToLocalStorage();
+                renderBookmarkBar();
+            };
+            const delBtn = document.createElement("button");
+            delBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            delBtn.onclick = () => {
+                bookmarks.splice(idx, 1);
+                saveToLocalStorage();
+                renderBookmarkBar();
+            };
+            actionsDiv.appendChild(editBtn);
+            actionsDiv.appendChild(delBtn);
+            wrapper.appendChild(actionsDiv);
+            bar.appendChild(wrapper);
+        });
+
+        const addBtn = document.createElement("button");
+        addBtn.className = "add-bm";
+        addBtn.innerHTML = '<i class="fas fa-plus"></i> بوکمارک جدید';
+        addBtn.onclick = () => {
+            let name = prompt("نام");
+            if (name) {
+                let url = prompt("آدرس");
+                if (url) {
+                    bookmarks.push({ name, url });
+                    saveToLocalStorage();
+                    renderBookmarkBar();
+                }
+            }
+        };
+        bar.appendChild(addBtn);
+    }
+
+    function setTheme(theme) {
+        document.body.className = '';
+        const themeClasses = [
+            "theme-liquid", "theme-retro", "theme-dark", "theme-light", "theme-bw",
+            "theme-ocean", "theme-sunset", "theme-forest", "theme-lavender", "theme-mint",
+            "theme-cherry", "theme-sky", "theme-aurora", "theme-coral", "theme-midnight",
+            "theme-autumn", "theme-ice", "theme-berry", "theme-citrus", "theme-noir",
+            "theme-spiderman", "theme-miles-morales", "theme-newyork",
+            "theme-transparent", "theme-e-girl", "theme-pink", "theme-bookworm",
+            "theme-ironman", "theme-rgb"
+        ];
+        document.body.classList.remove(...themeClasses);
+        document.body.classList.add(`theme-${theme}`);
+        localStorage.setItem('m4daily_theme', theme);
+    }
+    function setBgColor(color) { document.body.classList.remove('custom-bg'); document.body.style.removeProperty('--custom-bg-image'); document.body.style.background = `radial-gradient(circle at 30% 20%, ${color}, ${color}dd)`; localStorage.setItem('m4daily_bgColor', color); localStorage.removeItem('customBgImage'); }
+    function resetBg() { localStorage.removeItem('customBgImage'); localStorage.removeItem('m4daily_bgColor'); document.body.classList.remove('custom-bg'); document.body.style.removeProperty('--custom-bg-image'); document.body.style.background = ""; const savedTheme = localStorage.getItem('m4daily_theme') || 'bw'; setTheme(savedTheme); }
+    function uploadBg(file) { const reader = new FileReader(); reader.onload = e => { const data = e.target.result; localStorage.setItem('customBgImage', data); document.body.style.setProperty('--custom-bg-image', `url(${data})`); document.body.classList.add('custom-bg'); document.body.style.background = ""; }; reader.readAsDataURL(file); }
+    function applySavedBg() { const saved = localStorage.getItem('customBgImage'); if (saved) { document.body.style.setProperty('--custom-bg-image', `url(${saved})`); document.body.classList.add('custom-bg'); document.body.style.background = ""; } }
+    function searchGoogle() { let q = document.getElementById("originalSearchInput").value; if (q) window.open(`https://www.ecosia.org/search?q=${encodeURIComponent(q)}`, '_blank'); }
+
+    // ==================== Google Autocomplete (JSONP) with floating clone & animations ====================
+    let suggestTimeout = null;
+    const originalSearchInput = document.getElementById('originalSearchInput');
+    const originalSuggestions = document.getElementById('originalSuggestions');
+    const floatingContainer = document.getElementById('floatingSearchContainer');
+    const blurOverlay = document.getElementById('searchBlurOverlay');
+    let lastScript = null;
+    let floatingInput = null;
+    let floatingSuggestions = null;
+
+    function hideSuggestions(list) { if (list) list.style.display = 'none'; }
+    function showSuggestions(list) { if (list && list.children.length > 0) list.style.display = 'block'; }
+    function clearSuggestions(list) { if (list) list.innerHTML = ''; }
+
+    window.googleSuggestCallback = function(data) {
+        const activeList = floatingSuggestions || originalSuggestions;
+        if (!activeList) return;
+        if (Array.isArray(data) && data.length > 1 && Array.isArray(data[1])) {
+            const suggestions = data[1].slice(0, 8);
+            clearSuggestions(activeList);
+            if (suggestions.length === 0) { hideSuggestions(activeList); return; }
+            suggestions.forEach((suggestion, index) => {
+                const li = document.createElement('li');
+                li.textContent = suggestion;
+                li.style.animationDelay = `${index * 0.05}s`;
+                li.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    if (floatingInput) floatingInput.value = suggestion;
+                    originalSearchInput.value = suggestion;
+                    hideSuggestions(activeList);
+                });
+                activeList.appendChild(li);
+            });
+            showSuggestions(activeList);
+        } else {
+            clearSuggestions(activeList);
+            hideSuggestions(activeList);
+        }
+        if (lastScript && lastScript.parentNode) {
+            lastScript.parentNode.removeChild(lastScript);
+            lastScript = null;
+        }
+    };
+
+    function fetchGoogleSuggest(query) {
+        if (!query.trim()) {
+            clearSuggestions(floatingSuggestions);
+            clearSuggestions(originalSuggestions);
+            hideSuggestions(floatingSuggestions);
+            hideSuggestions(originalSuggestions);
+            return;
+        }
+        if (lastScript && lastScript.parentNode) lastScript.parentNode.removeChild(lastScript);
+        const script = document.createElement('script');
+        script.src = `https://suggestqueries.google.com/complete/search?client=chrome&q=${encodeURIComponent(query)}&callback=googleSuggestCallback`;
+        document.body.appendChild(script);
+        lastScript = script;
+    }
+
+    function handleSearchInput(e) {
+        const query = e.target.value.trim();
+        if (suggestTimeout) clearTimeout(suggestTimeout);
+        if (!query) {
+            clearSuggestions(floatingSuggestions);
+            clearSuggestions(originalSuggestions);
+            hideSuggestions(floatingSuggestions);
+            hideSuggestions(originalSuggestions);
+            return;
+        }
+        suggestTimeout = setTimeout(() => fetchGoogleSuggest(query), 300);
+    }
+
+    function createFloatingClone() {
+        floatingContainer.innerHTML = '';
+        const cloneBox = document.createElement('div');
+        cloneBox.className = 'search-box-clone';
+        cloneBox.innerHTML = `
+            <input type="text" placeholder="جستجو ..." autocomplete="off">
+            <button class="search-btn"><i class="fas fa-search"></i> جستجو</button>
+            <ul class="suggestions-clone"></ul>
+        `;
+        floatingInput = cloneBox.querySelector('input');
+        const cloneBtn = cloneBox.querySelector('button');
+        floatingSuggestions = cloneBox.querySelector('.suggestions-clone');
+        floatingInput.value = originalSearchInput.value;
+        floatingInput.addEventListener('input', (e) => {
+            originalSearchInput.value = e.target.value;
+            handleSearchInput(e);
+        });
+        floatingInput.addEventListener('blur', () => {
+            setTimeout(deactivateFloatingSearch, 200);
+        });
+        cloneBtn.addEventListener('click', () => {
+            searchGoogle();
+            deactivateFloatingSearch();
+        });
+        floatingInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchGoogle();
+                deactivateFloatingSearch();
+            }
+        });
+        floatingContainer.appendChild(cloneBox);
+    }
+
+    function activateFloatingSearch() {
+        blurOverlay.classList.add('active');
+        floatingContainer.classList.add('active');
+        createFloatingClone();
+        originalSuggestions.style.display = 'none';
+        setTimeout(() => { if (floatingInput) floatingInput.focus(); }, 50);
+        if (floatingInput && floatingInput.value.trim()) {
+            handleSearchInput({ target: floatingInput });
+        }
+    }
+
+    function deactivateFloatingSearch() {
+        blurOverlay.classList.remove('active');
+        floatingContainer.classList.remove('active');
+        setTimeout(() => {
+            if (!floatingContainer.classList.contains('active')) {
+                floatingContainer.innerHTML = '';
+                floatingInput = null;
+                floatingSuggestions = null;
+            }
+        }, 400);
+        if (originalSearchInput.value.trim() && originalSuggestions.children.length > 0) {
+            originalSuggestions.style.display = 'block';
+        }
+    }
+
+    originalSearchInput.addEventListener('focus', activateFloatingSearch);
+    originalSearchInput.addEventListener('input', (e) => {
+        if (floatingInput) floatingInput.value = e.target.value;
+        handleSearchInput(e);
+    });
+    document.getElementById('originalSearchBtn').addEventListener('click', () => {
+        searchGoogle();
+        deactivateFloatingSearch();
+    });
+
+    // ==================== FONT APPLICATION ====================
+    function applyFont(fontFamily) {
+        const fontMap = {
+            'Inter': 'Inter:opsz,wght@14..32,300;400;500;600;700;800',
+            'Vazirmatn': 'Vazirmatn:wght@300;400;500;600;700;800',
+            'Lalezar': 'Lalezar',
+            'Sahel': 'Sahel:wght@300;400;700',
+            'Titr': 'Titr',
+            'Nazanin': 'Noto+Naskh+Arabic',
+            'Samim': 'Samim',
+            'Gandom': 'Gandom',
+            'Poppins': 'Poppins:wght@300;400;500;600;700',
+            'Roboto': 'Roboto:wght@300;400;500;700',
+            'Open Sans': 'Open+Sans:wght@300;400;600;700',
+            'Lato': 'Lato:wght@300;400;700',
+            'Montserrat': 'Montserrat:wght@300;400;500;600;700',
+            'Raleway': 'Raleway:wght@300;400;500;600;700',
+            'Nunito': 'Nunito:wght@300;400;600;700',
+            'PT Sans': 'PT+Sans:wght@400;700',
+            'Noto Naskh Arabic': 'Noto+Naskh+Arabic:wght@400;700',
+            'Amiri': 'Amiri:wght@400;700',
+            'Tajawal': 'Tajawal:wght@300;400;500;700',
+            'Markazi Text': 'Markazi+Text:wght@400;600;700',
+            'Harmattan': 'Harmattan:wght@400;600',
+            'Lateef': 'Lateef',
+            'Scheherazade New': 'Scheherazade+New:wght@400;700',
+            'Reem Kufi': 'Reem+Kufi:wght@400;500;600',
+            'Cairo': 'Cairo:wght@300;400;600;700',
+            'Changa': 'Changa:wght@300;400;600;700',
+            'El Messiri': 'El+Messiri:wght@400;500;600;700',
+            'Mirza': 'Mirza:wght@400;500;600',
+            'Jomhuria': 'Jomhuria',
+            'B Nazanin': 'Noto+Naskh+Arabic'
+        };
+        const link = document.getElementById('dynamicFontLink');
+        if (fontMap[fontFamily]) {
+            link.href = `https://fonts.googleapis.com/css2?family=${fontMap[fontFamily]}&display=swap`;
+        } else {
+            link.href = '';
+        }
+        document.documentElement.style.setProperty('--font-family', `'${fontFamily}', sans-serif`);
+        localStorage.setItem('m4daily_font', fontFamily);
+    }
+
+    // ==================== WIDGET PRESETS ====================
+    const presets = {
+        minimal: [
+            { id: 1, type: 'clock', data: {} },
+            { id: 2, type: 'weather', data: { city: "تهران", temp: "24", condition: "آفتابی" } },
+            { id: 3, type: 'todo', data: { tasks: ["نوشیدن آب", "ورزش"] } }
+        ],
+        expert: [
+            { id: 1, type: 'clock', data: {} },
+            { id: 2, type: 'news', data: { feedUrl: DEFAULT_RSS, articles: [], lastUpdate: "---", loading: false, error: null } },
+            { id: 3, type: 'pomodoro', data: { minutes: 25, seconds: 0, isRunning: false, mode: "work", workDuration: 25, breakDuration: 5 } },
+            { id: 4, type: 'notes', data: { text: "جلسه ساعت ۱۰ ..." } },
+            { id: 5, type: 'webapps', data: { apps: [{ name:"Trello", url:"https://trello.com", icon:"fa-trello" }] } }
+        ],
+        liquidglass: [
+            { id: 1, type: 'clock', data: {} },
+            { id: 2, type: 'quote', data: getRandomQuote() },
+            { id: 3, type: 'music', data: { playlist: [], currentTrack: 0, isPlaying: false, shuffle: false } }
+        ],
+        retro: [
+            { id: 1, type: 'clock', data: {} },
+            { id: 2, type: 'todo', data: { tasks: ["چک کردن ایمیل", "خواندن کتاب"] } },
+            { id: 3, type: 'notes', data: { text: "یادداشت‌های روزانه..." } }
+        ],
+        colorful: [
+            { id: 1, type: 'weather', data: { city: "تهران", temp: "30", condition: "آفتابی" } },
+            { id: 2, type: 'quote', data: getRandomQuote() },
+            { id: 3, type: 'webapps', data: { apps: [{ name:"Spotify", url:"https://spotify.com", icon:"fa-spotify" }] } }
+        ]
+    };
+
+    function loadPreset(presetName) {
+        if (!presets[presetName]) return;
+        widgets = JSON.parse(JSON.stringify(presets[presetName]));
+        nextId = Math.max(...widgets.map(w => w.id), 0) + 1;
+        saveToLocalStorage();
+        renderAllWidgets();
+    }
+
+    // ==================== INIT ====================
+    document.addEventListener("DOMContentLoaded", async () => {
+        try {
+            await openIndexedDB();
+            if (!loadFromLocalStorage() || widgets.length === 0) initDefaultWidgets();
+            loadBookmarks();
+            await renderAllWidgets();
+            applySavedBg();
+            let savedTheme = localStorage.getItem('m4daily_theme') || 'bw';
+            setTheme(savedTheme);
+            document.getElementById("themeSelect").value = savedTheme;
+            let savedBg = localStorage.getItem('m4daily_bgColor');
+            if (savedBg && !localStorage.getItem('customBgImage')) setBgColor(savedBg);
+            document.getElementById("themeSelect").onchange = e => setTheme(e.target.value);
+            document.getElementById("resetBgBtn").onclick = resetBg;
+            document.getElementById("uploadBgBtn").onclick = () => document.getElementById("bgUpload").click();
+            document.getElementById("bgUpload").onchange = e => { if (e.target.files && e.target.files[0]) uploadBg(e.target.files[0]); };
+            document.getElementById("addWidgetBtn").onclick = () => { let type = document.getElementById("widgetTypeSelect").value; addNewWidget(type); };
+            // Font handling
+            const savedFont = localStorage.getItem('m4daily_font') || 'Inter';
+            document.getElementById('fontSelect').value = savedFont;
+            applyFont(savedFont);
+            document.getElementById('fontSelect').onchange = (e) => applyFont(e.target.value);
+            // Widget presets
+            document.getElementById('presetSelect').onchange = (e) => {
+                if (e.target.value) loadPreset(e.target.value);
+            };
+            setInterval(updateClockDate, 1000);
+        } catch (err) {
+            console.error("Initialization error:", err);
+        }
+    });
+</script>
+
+<!-- 🌈 Rainbow animation script – completely independent -->
+<script>
+    (function() {
+        let hue = 0;
+        function animateRainbow() {
+            if (document.body.classList.contains('theme-rgb')) {
+                hue = (hue + 0.5) % 360;
+                document.documentElement.style.setProperty('--accent-hue', hue);
+            }
+            requestAnimationFrame(animateRainbow);
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => requestAnimationFrame(animateRainbow));
+        } else {
+            requestAnimationFrame(animateRainbow);
+        }
+    })();
+</script>
+</body>
+</html>
